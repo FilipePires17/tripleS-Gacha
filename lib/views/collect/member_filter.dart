@@ -54,7 +54,7 @@ class _MemberFilterButton extends State<MemberFilterButton> {
   void initState() {
     bool isCurrent = true;
     super.initState();
-    Timer.periodic(Duration(milliseconds: 1), (timer) {
+    Timer.periodic(Duration(milliseconds: 100), (timer) {
       isCurrent = ModalRoute.of(context)?.isCurrent ?? false;
       if (isCurrent) {
         setState(() {
@@ -75,88 +75,8 @@ class _MemberFilterButton extends State<MemberFilterButton> {
         setState(() {
           isMemberFilterPressed = !isMemberFilterPressed;
         });
-        Navigator.of(context).push(HeroDialogRoute(
-            isFilter: true,
-            builder: (context) {
-              var theme = Theme.of(context);
-              var size = MediaQuery.of(context).size;
-              final double itemWidth = size.width;
-              return Padding(
-                padding: EdgeInsets.only(
-                    left: itemWidth * 0.055,
-                    top: (itemWidth * 0.388889 * 2 / 3) + (itemWidth * 0.056)),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    height: 0.662 * itemWidth,
-                    width: 0.754 * itemWidth,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      border: Border.all(
-                          color: theme.colorScheme.surface, width: 2),
-                      color: theme.colorScheme.background,
-                    ),
-                    child: ScrollConfiguration(
-                      behavior: MyBehavior(),
-                      child: ListView.separated(
-                        padding: EdgeInsets.only(
-                            top: 0.02 * itemWidth,
-                            bottom: 0.02 * itemWidth,
-                            left: 0.032 * itemWidth),
-                        itemCount: options.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Provider.of<InventoryRepo>(context, listen: false)
-                                  .filterRepository(index);
-                              Navigator.pop(context);
-                              setState(() {
-                                isMemberFilterPressed = !isMemberFilterPressed;
-                              });
-                            },
-                            child: Container(
-                              color: Color.fromRGBO(0, 0, 0, 0),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        right: 0.03 * itemWidth),
-                                    child: ClipOval(
-                                      child: SizedBox.fromSize(
-                                          size: Size.fromRadius(0.041 *
-                                              itemWidth), // Image radius
-                                          child: CachedNetworkImage(
-                                            imageUrl: urls[index],
-                                            fit: BoxFit.cover,
-                                          )
-                                          // Image.asset('assets\\images\\tripleS_logo.png',
-                                          //     fit: BoxFit.cover),
-                                          ),
-                                    ),
-                                  ),
-                                  Text(options[index],
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: theme.hintColor,
-                                          decoration: TextDecoration.none,
-                                          fontFamily: 'Pretendard')),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return SizedBox(
-                            width: double.infinity,
-                            height: 0.04 * itemWidth,
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }));
+        Navigator.of(context).push(
+            HeroDialogRoute(isFilter: true, builder: (ctx) => MemberFilter()));
       },
       child: Container(
         key: filterKey,
@@ -184,8 +104,7 @@ class _MemberFilterButton extends State<MemberFilterButton> {
                         shape: BoxShape.circle),
                     child: ClipOval(
                       child: SizedBox.fromSize(
-                        size:
-                            Size.fromRadius(0.074 * itemWidth), // Image radius
+                        size: Size.fromRadius(0.074 * itemWidth),
                         child: CachedNetworkImage(
                             imageUrl: urls[repo.member], fit: BoxFit.cover),
                       ),
@@ -255,10 +174,13 @@ class MemberFilter extends StatelessWidget {
     var theme = Theme.of(context);
     var size = MediaQuery.of(context).size;
     final double itemWidth = size.width;
+    final double unsafeArea = MediaQuery.of(context).padding.top;
     return Padding(
       padding: EdgeInsets.only(
           left: itemWidth * 0.055,
-          top: (itemWidth * 0.388889 * 2 / 3) + (itemWidth * 0.056)),
+          top: (itemWidth * 0.388889 * 2 / 3) +
+              unsafeArea -
+              (itemWidth * 0.003)),
       child: Align(
         alignment: Alignment.topLeft,
         child: Container(
@@ -283,7 +205,6 @@ class MemberFilter extends StatelessWidget {
                     Provider.of<InventoryRepo>(context, listen: false)
                         .filterRepository(index);
                     Navigator.pop(context);
-                    isMemberFilterPressed = !isMemberFilterPressed;
                   },
                   child: Container(
                     color: Color.fromRGBO(0, 0, 0, 0),
@@ -293,8 +214,7 @@ class MemberFilter extends StatelessWidget {
                           padding: EdgeInsets.only(right: 0.03 * itemWidth),
                           child: ClipOval(
                             child: SizedBox.fromSize(
-                                size: Size.fromRadius(
-                                    0.041 * itemWidth), // Image radius
+                                size: Size.fromRadius(0.041 * itemWidth),
                                 child: CachedNetworkImage(
                                   imageUrl: urls[index],
                                   fit: BoxFit.cover,

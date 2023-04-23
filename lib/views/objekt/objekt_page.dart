@@ -156,7 +156,6 @@ class ObjektPage extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
-                            //crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 '${card.classId.toString()}Z',

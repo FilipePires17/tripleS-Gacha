@@ -1,7 +1,6 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:triples_gacha/models/inventory_objekt.dart';
 import '../../utils/hero_dialog_route.dart';
 import '../../utils/utils.dart';
 import '../shop/new_objekt.dart';
@@ -48,10 +47,8 @@ class _CollectState extends State<Collect> with AfterLayoutMixin<Collect> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        //systemNavigationBarColor: Colors.blue, // navigation bar color
         statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark // status bar color
-        ));
+        statusBarIconBrightness: Brightness.dark));
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(

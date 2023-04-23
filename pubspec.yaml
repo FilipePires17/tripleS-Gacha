@@ -82,6 +82,7 @@ flutter:
     - assets\images\finger.png
     - assets\images\send.png
     - assets\images\packet.png
+    - assets\images\bottom-bar.png
     - assets\texts\shop_disclaimer.txt
     - assets\objekts.csv
   #   - images/a_dot_ham.jpeg

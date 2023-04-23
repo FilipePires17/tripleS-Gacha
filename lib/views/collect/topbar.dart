@@ -14,11 +14,6 @@ class TopBar extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     var theme = Theme.of(context);
     final double itemWidth = size.width;
-    //var proportion = MediaQuery.of(context).devicePixelRatio;
-    //final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    //print('width $itemWidth');
-    //print('height $itemHeight');
-    //print('ratio $proportion');
     return Container(
       width: double.infinity,
       height: itemWidth * 0.388889,

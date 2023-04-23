@@ -68,7 +68,7 @@ class InventoryRepo extends ChangeNotifier {
   }
 
   initRepository() async {
-    var db = await DB.get(); // explicar que aqui irá iniciar o DB
+    var db = await DB.get();
     List invObjs = await db.rawQuery('''
     SELECT inventory.*, objekts.class_num, objekts.s, objekts.url, objekts.class
     FROM inventory 

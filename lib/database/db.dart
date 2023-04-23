@@ -65,12 +65,7 @@ class DB {
 
   setupObjekts(db) async {
     final file = await getFileFromAssets('objekts.csv');
-
-    //final File file = File('assets\\objekts.csv');
     final String csvString = await file.readAsString();
-    // print(csvString);
-
-    // Converta o conteúdo do arquivo CSV em uma lista de linhas
     final List<List<dynamic>> csvTable =
         CsvToListConverter().convert(csvString);
     csvTable.removeAt(0);

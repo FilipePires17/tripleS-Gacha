@@ -5,7 +5,6 @@ import 'package:triples_gacha/repositories/inventory_repo.dart';
 import 'package:triples_gacha/views/objekt/objekt_page.dart';
 import '../../utils/utils.dart';
 import 'package:provider/provider.dart';
-//import 'package:get/get.dart';
 
 class Collection extends StatefulWidget {
   @override
@@ -16,9 +15,6 @@ class _CollectionState extends State<Collection> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
-    /*24 is for notification bar on Android*/
-    //final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
     final double itemWidth = size.width;
     var theme = Theme.of(context);
 
@@ -54,7 +50,6 @@ class _CollectionState extends State<Collection> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.min,
-                                  //crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '${card.classId.toString()}Z',

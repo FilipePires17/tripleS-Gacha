@@ -20,7 +20,7 @@ class _FilterButtonState extends State<FilterButton> {
   void initState() {
     bool isCurrent;
     super.initState();
-    Timer.periodic(Duration(milliseconds: 1), (timer) {
+    Timer.periodic(Duration(milliseconds: 100), (timer) {
       isCurrent = ModalRoute.of(context)?.isCurrent ?? false;
       if (isCurrent) {
         setState(() {
@@ -86,11 +86,12 @@ class Filter extends StatelessWidget {
     var theme = Theme.of(context);
     var size = MediaQuery.of(context).size;
     final double itemWidth = size.width;
+    final double unsafeArea = MediaQuery.of(context).padding.top;
     return Align(
       alignment: Alignment.topRight,
       child: Padding(
         padding: EdgeInsets.only(
-            top: (itemWidth * 0.388889) + (itemWidth * 0.048),
+            top: (itemWidth * 0.388889) + unsafeArea - (itemWidth * 0.012),
             right: itemWidth * 0.032),
         child: Container(
           height: 0.426 * itemWidth,

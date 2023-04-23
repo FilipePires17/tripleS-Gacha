@@ -14,15 +14,17 @@ import '../repositories/inventory_repo.dart';
 class Utils {
   Future<InventoryObjekt> gacha(BuildContext context, bool welcome) async {
     var db = await DB.get();
-    int rate = Random().nextInt(10);
+    int rate = Random().nextInt(100);
     int intValue;
-    if (rate > 2) {
+    if (rate == 99 || welcome) {
+      intValue = Random().nextInt(10) + 1;
+    } else if (rate > 20) {
       intValue = Random().nextInt(200) + 11;
     } else {
       intValue = Random().nextInt(334) + 211;
     }
     final date = DateTime.now();
-    int id = welcome ? rate : intValue;
+    int id = intValue;
     var obj = await Provider.of<InventoryRepo>(context, listen: false)
         .modelFromId(db, id);
 
@@ -92,11 +94,6 @@ class Como extends StatelessWidget {
                         fontSize: 11, color: theme.colorScheme.primary),
                   );
                 },
-                // child: Text(
-                //   '999',
-                //   style:
-                //       TextStyle(fontSize: 11, color: theme.colorScheme.primary),
-                // ),
               ),
             ),
           ],
