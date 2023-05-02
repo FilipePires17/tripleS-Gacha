@@ -29,7 +29,9 @@ class Objekt extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Image.asset(
-                  'assets/images/${card.s}.png',
+                  card.s != '0'
+                      ? 'assets/images/${card.s}.png'
+                      : 'assets/images/zero.png',
                   fit: BoxFit.fill,
                 ),
               ),

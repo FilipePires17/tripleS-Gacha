@@ -60,18 +60,25 @@ class TopBar extends StatelessWidget {
               child: Row(
                 children: [
                   MemberFilterButton(),
-                  Expanded(
-                      child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () => showModalBottomSheet(
-                      context: context,
-                      builder: (context) => ClassFilter(),
-                    ),
-                    child: SizedBox(
-                        height: 0.041 * itemWidth,
-                        width: 0.041 * itemWidth,
-                        child: Image.asset('assets\\images\\filter.png')),
-                  ))
+                  Consumer<InventoryRepo>(
+                    builder: (context, repo, child) {
+                      bool isActive = repo.isApplied;
+                      return Expanded(
+                          child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => showModalBottomSheet(
+                          context: context,
+                          builder: (context) => ClassFilter(),
+                        ),
+                        child: SizedBox(
+                            height: 0.041 * itemWidth,
+                            width: 0.041 * itemWidth,
+                            child: Image.asset(isActive
+                                ? 'assets\\images\\active-filter.png'
+                                : 'assets\\images\\filter.png')),
+                      ));
+                    },
+                  )
                 ],
               ),
             ),

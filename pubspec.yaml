@@ -96,13 +96,16 @@ flutter:
     - assets\images\10.png
     - assets\images\myqr.png
     - assets\images\casa.png
+    - assets\images\active-filter.png
+    - assets\images\active-refresh.png
+    - assets\images\refresh.png
     - assets\images\capturar.png
     - assets\images\Ativo_24x.png
     - assets\images\Ativo_34x.png
     - assets\images\Ativo_44x.png
     - assets\images\Ativo_54x.png
     - assets\images\packet.png
-    - assets\images\bottom-bar2.png
+    - assets\images\bottom-bar.png
     - assets\texts\shop_disclaimer.txt
     - assets\objekts.csv
     - assets\backside.csv

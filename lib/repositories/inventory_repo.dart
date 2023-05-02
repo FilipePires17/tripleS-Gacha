@@ -153,12 +153,15 @@ class InventoryRepo extends ChangeNotifier {
   //---------------------------------------------------------------------
 
   List<bool> _isButtonPressed = [false, false, false, false];
-  List<String> classOption = ['w', 'f', 's', 'd'];
+  List<String> _classOption = ['w', 'f', 's', 'd'];
   String _query = '';
   bool _isApplied = false;
 
   UnmodifiableListView<bool> get isButtonPressed =>
       UnmodifiableListView<bool>(_isButtonPressed);
+
+  UnmodifiableListView<String> get classOption =>
+      UnmodifiableListView<String>(_classOption);
 
   String get query => _query;
 
@@ -166,11 +169,11 @@ class InventoryRepo extends ChangeNotifier {
 
   pressButton(int index) {
     if (isButtonPressed[index]) {
-      isButtonPressed[index] = !isButtonPressed[index];
-      _query = _query.replaceAll(classOption[index], '');
+      _isButtonPressed[index] = !_isButtonPressed[index];
+      _query = _query.replaceAll(_classOption[index], '');
     } else {
-      isButtonPressed[index] = !isButtonPressed[index];
-      _query = '${classOption[index]}$_query';
+      _isButtonPressed[index] = !_isButtonPressed[index];
+      _query = '${_classOption[index]}$_query';
     }
     print(_query);
     notifyListeners();
