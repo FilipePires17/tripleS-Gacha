@@ -21,8 +21,10 @@ class InventoryRepo extends ChangeNotifier {
   int get member => _member;
 
   modelFromId(db, objId) async {
-    List objQuery =
-        await db.rawQuery('SELECT * FROM objekts WHERE objekts.id = $objId');
+    List objQuery = await db.rawQuery('''SELECT objekts.*, backside.urlb 
+        FROM objekts
+        INNER JOIN backside ON objekts.backside_id = backside.id
+        WHERE objekts.id = $objId; ''');
     return objQuery[0];
   }
 
@@ -64,15 +66,16 @@ class InventoryRepo extends ChangeNotifier {
       }
     }
     _member = s;
-    orderByDate(true);
+    maintainOrder();
   }
 
   initRepository() async {
     var db = await DB.get();
     List invObjs = await db.rawQuery('''
-    SELECT inventory.*, objekts.class_num, objekts.s, objekts.url, objekts.class
+    SELECT inventory.*, objekts.class_num, objekts.s, objekts.url, objekts.class, backside.urlb
     FROM inventory 
     INNER JOIN objekts ON inventory.obj_id = objekts.id
+    INNER JOIN backside ON objekts.backside_id = backside.id
     ORDER BY created DESC;
     ''');
 
@@ -82,6 +85,7 @@ class InventoryRepo extends ChangeNotifier {
           objId: o['obj_id'],
           serial: o['serial'],
           url: o['url'],
+          backside: o['urlb'],
           classId: o['class_num'],
           objektClass: o['class'],
           s: o['s'],
@@ -118,5 +122,68 @@ class InventoryRepo extends ChangeNotifier {
       _currentOrder = order[2];
     }
     notifyListeners();
+  }
+
+  orderByClass(String query) {
+    print('------------------');
+    _inventoryTemp.clear();
+
+    for (var i in _inventory) {
+      if (i.objektClass.contains(RegExp('[$query]co'))) {
+        _inventoryTemp.add(i);
+      }
+    }
+    maintainOrder();
+
+    print('------------------');
+  }
+
+  maintainOrder() {
+    if (_currentOrder == order[0]) {
+      orderByDate(true);
+    } else if (_currentOrder == order[1]) {
+      orderByDate(false);
+    } else if (_currentOrder == order[2]) {
+      orderByNumber(true);
+    } else {
+      orderByNumber(false);
+    }
+  }
+
+  //---------------------------------------------------------------------
+
+  List<bool> _isButtonPressed = [false, false, false, false];
+  List<String> classOption = ['w', 'f', 's', 'd'];
+  String _query = '';
+  bool _isApplied = false;
+
+  UnmodifiableListView<bool> get isButtonPressed =>
+      UnmodifiableListView<bool>(_isButtonPressed);
+
+  String get query => _query;
+
+  bool get isApplied => _isApplied;
+
+  pressButton(int index) {
+    if (isButtonPressed[index]) {
+      isButtonPressed[index] = !isButtonPressed[index];
+      _query = _query.replaceAll(classOption[index], '');
+    } else {
+      isButtonPressed[index] = !isButtonPressed[index];
+      _query = '${classOption[index]}$_query';
+    }
+    print(_query);
+    notifyListeners();
+  }
+
+  clear() {
+    _isButtonPressed.setAll(0, [false, false, false, false]);
+    _query = '';
+    notifyListeners();
+  }
+
+  apply() {
+    _isApplied = _query != ''; // ? false : true;
+    orderByClass(_query == '' ? 'wsfd' : _query);
   }
 }

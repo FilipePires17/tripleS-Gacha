@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:triples_gacha/models/inventory_objekt.dart';
+import 'package:triples_gacha/views/objekt/objekt.dart';
 
 class NewObjekt extends StatelessWidget {
   final String message;
@@ -13,6 +13,11 @@ class NewObjekt extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     final double itemWidth = size.width;
     var theme = Theme.of(context);
+    bool wcdco = false;
+    if (card.classId.trimLeft() == '317' ||
+        card.classId.trimLeft() == '318' ||
+        card.classId.trimLeft() == '319' ||
+        card.classId.trimLeft() == '329') wcdco = true;
     return Center(
       child: SizedBox(
         width: 0.911 * itemWidth,
@@ -39,64 +44,31 @@ class NewObjekt extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: 0.079 * itemWidth),
-                child: Container(
-                    alignment: Alignment.centerRight,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: CachedNetworkImageProvider(
-                                card.url.trimLeft()))),
+                child: SizedBox(
                     height: 0.6 * (0.911 * itemWidth / 99) * 153,
                     width: 0.6 * (0.911 * itemWidth / 99) * 100,
-                    child: Padding(
-                        padding: EdgeInsets.only(right: 4),
-                        child: RotatedBox(
-                            quarterTurns: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  '${card.classId.toString()}Z',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.none),
-                                ),
-                                Text(
-                                  card.serial.toString().length == 1
-                                      ? '#0000${card.serial.toString()}'
-                                      : '#000${card.serial.toString()}',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.red,
-                                      fontFamily: 'Dot-matrix',
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.none),
-                                ),
-                              ],
-                            )))),
+                    child: Objekt(card: card, wcdco: wcdco, fontSize: 15)),
               ),
               Container(
                 color: Color(0xFFE9ECEF),
                 height: 2,
                 width: double.infinity,
               ),
-              Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
-                  color: theme.colorScheme.background,
-                ),
-                height: 0.2 * itemWidth - 2,
-                width: double.infinity,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10)),
+                    color: theme.colorScheme.background,
+                  ),
+                  height: 0.2 * itemWidth - 2,
+                  width: double.infinity,
                   child: Text(
                     'Confirm',
                     style: TextStyle(

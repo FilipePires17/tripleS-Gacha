@@ -20,7 +20,7 @@ class NoComo extends StatelessWidget {
             height: itemWidth * 0.3,
             child: Center(
               child: Text(
-                "You don't have enough como! \u{1F622}",
+                "You don't have enough points! \u{1F622}",
                 style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontFamily: 'Pretendard',
@@ -46,6 +46,7 @@ class NoComo extends StatelessWidget {
             height: 0.2 * itemWidth - 2,
             width: double.infinity,
             child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
               onTap: () {
                 Navigator.pop(context);
               },

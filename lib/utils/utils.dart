@@ -14,19 +14,20 @@ import '../repositories/inventory_repo.dart';
 class Utils {
   Future<InventoryObjekt> gacha(BuildContext context, bool welcome) async {
     var db = await DB.get();
-    int rate = Random().nextInt(100);
+    int rate = Random().nextInt(500);
     int intValue;
-    if (rate == 99 || welcome) {
+    if (rate == 499) {
+      intValue = 545;
+    } else if (rate >= 490 || welcome) {
       intValue = Random().nextInt(10) + 1;
-    } else if (rate > 20) {
+    } else if (rate > 150) {
       intValue = Random().nextInt(200) + 11;
     } else {
       intValue = Random().nextInt(334) + 211;
     }
     final date = DateTime.now();
-    int id = intValue;
     var obj = await Provider.of<InventoryRepo>(context, listen: false)
-        .modelFromId(db, id);
+        .modelFromId(db, intValue);
 
     Directory dir = await getApplicationDocumentsDirectory();
     var box = await Hive.openBox('serial', path: dir.path);
@@ -38,8 +39,9 @@ class Utils {
     InventoryObjekt inv = InventoryObjekt(
         id: 0,
         serial: getSerial + 1,
-        objId: id,
+        objId: intValue,
         url: obj['url'],
+        backside: obj['urlb'],
         classId: classId,
         objektClass: obj['class'],
         s: s,

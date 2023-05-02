@@ -16,15 +16,15 @@ class ComoController extends ChangeNotifier {
   updateComos() async {
     Directory dir = await getApplicationDocumentsDirectory();
     var box = await Hive.openBox('como', path: dir.path);
-    _como = box.get('quant') ?? 5.0;
+    _como = box.get('quant') ?? 0;
     notifyListeners();
   }
 
-  addComo({var add = 5.0}) async {
+  addComo({var add = 10.0}) async {
     Directory dir = await getApplicationDocumentsDirectory();
     var box = await Hive.openBox('como', path: dir.path);
     await box.put('quant', _como + add);
-    _como = box.get('quant') ?? 5.0;
+    _como = box.get('quant');
     notifyListeners();
   }
 
@@ -32,7 +32,7 @@ class ComoController extends ChangeNotifier {
     Directory dir = await getApplicationDocumentsDirectory();
     var box = await Hive.openBox('como', path: dir.path);
     await box.put('quant', _como - 1.0);
-    _como = box.get('quant') ?? 5.0;
+    _como = box.get('quant');
     notifyListeners();
   }
 }

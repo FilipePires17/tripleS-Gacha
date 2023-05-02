@@ -20,18 +20,29 @@ class DB {
 
   initDatabase() async {
     return await openDatabase(join(await getDatabasesPath(), 'cosmo.db'),
-        version: 2, onCreate: ((db, version) async {
+        version: 3, onCreate: ((db, version) async {
+      await db.execute(backside);
       await db.execute(objekts);
       await db.execute(inventory);
+      await setupBackside(db);
       await setupObjekts(db);
     }));
   }
 
-  addTestInv(db) async {
-    await db.insert('inventory', {'serial': 1, 'obj_id': 1});
-    await db.insert('inventory', {'serial': 1, 'obj_id': 56});
-    await db.insert('inventory', {'serial': 1, 'obj_id': 35});
-  }
+  // addTestInv(db) async {
+  //   await db.insert('inventory', {'serial': 1, 'obj_id': 1});
+  //   await db.insert('inventory', {'serial': 1, 'obj_id': 56});
+  //   await db.insert('inventory', {'serial': 1, 'obj_id': 35});
+  // }
+
+  String get backside => '''
+    CREATE TABLE backside(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      s TEXT,
+      class TEXT,
+      urlb TEXT
+    );
+''';
 
   String get objekts => '''
     CREATE TABLE objekts(
@@ -39,7 +50,9 @@ class DB {
       class_num TEXT,
       s TEXT,
       class TEXT,
-      url TEXT
+      url TEXT,
+      backside_id INTEGER,
+      FOREIGN KEY (backside_id) REFERENCES backside(id)
     );
   ''';
 
@@ -63,15 +76,33 @@ class DB {
     return file;
   }
 
-  setupObjekts(db) async {
-    final file = await getFileFromAssets('objekts.csv');
-    final String csvString = await file.readAsString();
-    final List<List<dynamic>> csvTable =
-        CsvToListConverter().convert(csvString);
+  setupBackside(db) async {
+    dynamic file = await getFileFromAssets('backside.csv');
+    String csvString = await file.readAsString();
+    List<List<dynamic>> csvTable = CsvToListConverter().convert(csvString);
     csvTable.removeAt(0);
     for (final List<dynamic> row in csvTable) {
-      await db.insert('objekts',
-          {'class_num': row[0], 's': row[1], 'class': row[2], 'url': row[3]});
+      await db.insert('backside',
+          {'s': row[0].toString(), 'class': row[1], 'urlb': row[2]});
+    }
+  }
+
+  setupObjekts(db) async {
+    List<dynamic> backsideQuery;
+    dynamic file2 = await getFileFromAssets('objekts.csv');
+    String csvString2 = await file2.readAsString();
+    List<List<dynamic>> csvTable2 = CsvToListConverter().convert(csvString2);
+    csvTable2.removeAt(0);
+    for (final List<dynamic> row in csvTable2) {
+      backsideQuery = await db.rawQuery('''SELECT * FROM backside 
+          WHERE backside.s = ${row[1]} AND backside.class = '${row[2].toString().trimLeft()}' ''');
+      await db.insert('objekts', {
+        'class_num': row[0],
+        's': row[1],
+        'class': row[2],
+        'url': row[3],
+        'backside_id': backsideQuery[0]['id']
+      });
     }
   }
 }

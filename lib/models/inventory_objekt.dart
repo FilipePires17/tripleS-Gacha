@@ -3,6 +3,7 @@ class InventoryObjekt {
   int objId;
   int serial;
   String url;
+  String backside;
   String classId;
   String objektClass;
   String s;
@@ -13,6 +14,7 @@ class InventoryObjekt {
       required this.objId,
       required this.serial,
       required this.url,
+      required this.backside,
       required this.classId,
       required this.objektClass,
       required this.s,

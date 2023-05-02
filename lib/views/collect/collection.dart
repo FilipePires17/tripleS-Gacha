@@ -1,8 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:triples_gacha/models/inventory_objekt.dart';
 import 'package:triples_gacha/repositories/inventory_repo.dart';
+import 'package:triples_gacha/views/objekt/objekt.dart';
 import 'package:triples_gacha/views/objekt/objekt_page.dart';
+import '../../controler/controller.dart';
 import '../../utils/utils.dart';
 import 'package:provider/provider.dart';
 
@@ -35,47 +36,27 @@ class _CollectionState extends State<Collection> {
                   children: List.generate(repo.cards.length, (index) {
                     final List<InventoryObjekt> cards = repo.cards;
                     InventoryObjekt card = cards[index];
-                    print(card.url);
+                    bool wcdco = false;
+                    if (card.classId.trimLeft() == '317' ||
+                        card.classId.trimLeft() == '318' ||
+                        card.classId.trimLeft() == '319' ||
+                        card.classId.trimLeft() == '329') wcdco = true;
+                    //print(card.url);
                     return GestureDetector(
-                      child: Container(
-                        alignment: Alignment.centerRight,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: CachedNetworkImageProvider(
-                                    card.url.trimLeft()))),
-                        child: Padding(
-                            padding: EdgeInsets.only(right: 2),
-                            child: RotatedBox(
-                                quarterTurns: 1,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      '${card.classId.toString()}Z',
-                                      style: TextStyle(
-                                          fontSize: 7,
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      card.serial.toString().length == 1
-                                          ? '#0000${card.serial.toString()}'
-                                          : '#000${card.serial.toString()}',
-                                      style: TextStyle(
-                                          fontSize: 7,
-                                          color: Colors.red,
-                                          fontFamily: 'Dot-matrix',
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ))),
-                      ),
-                      onTap: () {
-                        Navigator.push(
+                      behavior: HitTestBehavior.opaque,
+                      child: Objekt(card: card, wcdco: wcdco, fontSize: 7),
+                      onTap: () async {
+                        if (await Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => ObjektPage(id: card.id)));
+                                builder: (context) =>
+                                    ObjektPage(card: card)))) {
+                          repo.deleteInventory(
+                              inv: repo.cards.firstWhere(
+                                  (element) => element.id == card.id));
+                          Provider.of<ComoController>(context, listen: false)
+                              .addComo(add: 0.5);
+                        }
                       },
                     );
                   }),

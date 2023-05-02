@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
@@ -36,6 +35,7 @@ class _FilterButtonState extends State<FilterButton> {
     var size = MediaQuery.of(context).size;
     final double itemWidth = size.width;
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         setState(() {
           isFilterPressed = !isFilterPressed;
@@ -108,6 +108,7 @@ class Filter extends StatelessWidget {
               children: [
                 Expanded(
                   child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: () {
                       repo.orderByDate(true);
                       Navigator.pop(context);
@@ -124,6 +125,7 @@ class Filter extends StatelessWidget {
                 ),
                 Expanded(
                   child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: () {
                       repo.orderByDate(false);
                       Navigator.pop(context);
@@ -140,6 +142,7 @@ class Filter extends StatelessWidget {
                 ),
                 Expanded(
                   child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: () {
                       repo.orderByNumber(false);
                       Navigator.pop(context);
@@ -155,6 +158,7 @@ class Filter extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   onTap: () {
                     repo.orderByNumber(true);
                     Navigator.pop(context);

@@ -4,7 +4,9 @@ import 'package:triples_gacha/controler/controller.dart';
 import 'package:triples_gacha/models/inventory_objekt.dart';
 import 'package:triples_gacha/utils/hero_dialog_route.dart';
 import 'package:triples_gacha/utils/utils.dart';
+import 'package:triples_gacha/views/shop/copyright.dart';
 import 'package:triples_gacha/views/shop/nocomo.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'new_objekt.dart';
 
@@ -34,18 +36,25 @@ class Shop extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(
                         left: 0.065 * itemWidth,
-                        right: itemWidth * 0.16 - 0.023 * itemWidth),
+                        right: itemWidth * 0.1 - 0.023 * itemWidth),
                     child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () {
                         Navigator.pop(context);
                       },
                       child: SizedBox(
-                          height: 0.042 * itemWidth,
-                          width: 0.023 * itemWidth,
-                          child: Image.asset(
-                            'assets\\images\\back-arrow.png',
-                            fit: BoxFit.fill,
-                          )),
+                        width: 0.1 * itemWidth,
+                        height: 0.08 * itemWidth,
+                        child: Center(
+                          child: SizedBox(
+                              height: 0.042 * itemWidth,
+                              width: 0.1 * itemWidth,
+                              child: Image.asset(
+                                'assets\\images\\back-arrow.png',
+                                fit: BoxFit.contain,
+                              )),
+                        ),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -137,6 +146,57 @@ class Shop extends StatelessWidget {
                           },
                         ),
                       ),
+                    ),
+                    Center(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () async {
+                              Uri url = Uri.parse(
+                                  'https://play.google.com/store/apps/details?id=com.modhaus.cosmo');
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url,
+                                    mode: LaunchMode.externalApplication);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 40),
+                              child: Text(
+                                'Cosmo: The Origin',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 40),
+                            child: Text('  ·  '),
+                          ),
+                          GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () {
+                              Navigator.of(context).push(HeroDialogRoute(
+                                  builder: (context) => Copyright()));
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 40),
+                              child: Text(
+                                'Credits',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -151,6 +211,7 @@ class Shop extends StatelessWidget {
               width: double.infinity,
               child: Center(
                 child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: () async {
                       var c =
                           Provider.of<ComoController>(context, listen: false)

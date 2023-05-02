@@ -48,8 +48,6 @@ List<String> options = [
 ];
 
 class _MemberFilterButton extends State<MemberFilterButton> {
-  final GlobalKey filterKey = GlobalKey();
-
   @override
   void initState() {
     bool isCurrent = true;
@@ -71,6 +69,7 @@ class _MemberFilterButton extends State<MemberFilterButton> {
     final double itemWidth = size.width;
 
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         setState(() {
           isMemberFilterPressed = !isMemberFilterPressed;
@@ -79,7 +78,6 @@ class _MemberFilterButton extends State<MemberFilterButton> {
             HeroDialogRoute(isFilter: true, builder: (ctx) => MemberFilter()));
       },
       child: Container(
-        key: filterKey,
         height: 0.125 * itemWidth,
         width: 0.754 * itemWidth,
         decoration: BoxDecoration(
@@ -106,7 +104,13 @@ class _MemberFilterButton extends State<MemberFilterButton> {
                       child: SizedBox.fromSize(
                         size: Size.fromRadius(0.074 * itemWidth),
                         child: CachedNetworkImage(
-                            imageUrl: urls[repo.member], fit: BoxFit.cover),
+                          imageUrl: urls[repo.member],
+                          fit: BoxFit.cover,
+                          errorWidget: (context, url, error) {
+                            return Image.asset(
+                                'assets/images/tripleS_logo.png');
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -201,6 +205,7 @@ class MemberFilter extends StatelessWidget {
               itemCount: options.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   onTap: () {
                     Provider.of<InventoryRepo>(context, listen: false)
                         .filterRepository(index);
@@ -216,9 +221,12 @@ class MemberFilter extends StatelessWidget {
                             child: SizedBox.fromSize(
                                 size: Size.fromRadius(0.041 * itemWidth),
                                 child: CachedNetworkImage(
-                                  imageUrl: urls[index],
-                                  fit: BoxFit.cover,
-                                )),
+                                    imageUrl: urls[index],
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, url, error) {
+                                      return Image.asset(
+                                          'assets/images/tripleS_logo.png');
+                                    })),
                           ),
                         ),
                         Text(options[index],

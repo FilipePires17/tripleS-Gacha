@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:triples_gacha/repositories/inventory_repo.dart';
+import 'package:triples_gacha/views/collect/class_filter.dart';
 import 'package:triples_gacha/views/collect/filter.dart';
 import '../../utils/utils.dart';
 import 'member_filter.dart';
@@ -37,6 +38,7 @@ class TopBar extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(right: itemWidth * 0.041),
                     child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () {
                         Navigator.pushNamed(context, 'shop');
                       },
@@ -59,10 +61,17 @@ class TopBar extends StatelessWidget {
                 children: [
                   MemberFilterButton(),
                   Expanded(
-                      child: SizedBox(
-                          height: 0.041 * itemWidth,
-                          width: 0.041 * itemWidth,
-                          child: Image.asset('assets\\images\\filter.png')))
+                      child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => showModalBottomSheet(
+                      context: context,
+                      builder: (context) => ClassFilter(),
+                    ),
+                    child: SizedBox(
+                        height: 0.041 * itemWidth,
+                        width: 0.041 * itemWidth,
+                        child: Image.asset('assets\\images\\filter.png')),
+                  ))
                 ],
               ),
             ),
@@ -74,7 +83,8 @@ class TopBar extends StatelessWidget {
                       var qnt = repo.cards.length;
                       return Text(
                         '$qnt items',
-                        style: TextStyle(color: theme.colorScheme.primary),
+                        style: TextStyle(
+                            color: theme.colorScheme.primary, fontSize: 12),
                       );
                     },
                   )),

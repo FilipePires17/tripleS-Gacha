@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -29,6 +29,9 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     rechargeComo();
+    Timer.periodic(Duration(seconds: 1), (timer) async {
+      rechargeComo();
+    });
   }
 
   rechargeComo() async {
@@ -40,13 +43,15 @@ class _MyAppState extends State<MyApp> {
     String month = t.month.toString();
     String day = t.day.toString();
     String today = '$year-$month-$day';
-    if (yesterday != today) {
+    if (yesterday == '') {
+      Provider.of<ComoController>(context, listen: false).addComo(add: 24);
+      box.put('day', today);
+    } else if (yesterday != today) {
       Provider.of<ComoController>(context, listen: false).addComo();
       box.put('day', today);
     }
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -75,7 +80,8 @@ class _MyAppState extends State<MyApp> {
               onTertiary: Color(0xFF84898D),
               primaryContainer: Color(0xFFF2F6F9),
               surface: Color(0xFFE9ECEF),
-              onSurface: Color(0xFFF2F6F9))),
+              onSurface: Color(0xFFEBEBEB),
+              surfaceVariant: Color(0xFFE8ECEF))),
       home: Collect(),
       routes: {'shop': (BuildContext ctx) => Shop()},
     );
