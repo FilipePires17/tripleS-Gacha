@@ -143,9 +143,11 @@ class _ObjektPageState extends State<ObjektPage> {
         ),
         GestureDetector(
             onTap: () {
-              setState(() {
-                backside = !backside;
-              });
+              if (widget.card.s != '0') {
+                setState(() {
+                  backside = !backside;
+                });
+              }
             },
             child: Flipable(
               card: widget.card,
