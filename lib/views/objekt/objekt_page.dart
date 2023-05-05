@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:triples_gacha/models/inventory_objekt.dart';
@@ -14,9 +13,15 @@ class ObjektPage extends StatefulWidget {
   State<ObjektPage> createState() => _ObjektPageState();
 }
 
-bool backside = false;
-
 class _ObjektPageState extends State<ObjektPage> {
+  late bool backside;
+
+  @override
+  void initState() {
+    super.initState();
+    backside = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -188,42 +193,6 @@ class Flipable extends StatelessWidget {
               : Objekt(card: card, wcdco: wcdco, fontSize: 18),
         ),
       ),
-    );
-  }
-}
-
-class Backside extends StatelessWidget {
-  final InventoryObjekt card;
-  const Backside({super.key, required this.card});
-
-  @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    final double itemWidth = size.width;
-    return Stack(
-      children: [
-        CachedNetworkImage(
-          placeholder: (context, url) => Center(
-            child: CircularProgressIndicator(),
-          ),
-          imageUrl: card.backside,
-          errorWidget: (context, url, error) {
-            return Image.asset('assets/images/${card.s}.png');
-          },
-        ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Container(
-              padding: EdgeInsets.only(
-                  right: itemWidth * 0.19, bottom: itemWidth * 0.235),
-              height: itemWidth * 0.45,
-              width: itemWidth * 0.403,
-              child: Image.asset(
-                'assets/images/myqr.png',
-                fit: BoxFit.fill,
-              )),
-        )
-      ],
     );
   }
 }

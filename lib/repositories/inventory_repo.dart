@@ -124,19 +124,16 @@ class InventoryRepo extends ChangeNotifier {
     notifyListeners();
   }
 
-  orderByClass(String query) {
-    print('------------------');
-    _inventoryTemp.clear();
+  // orderByClass(String query) {
+  //   //_inventoryTemp.clear();
 
-    for (var i in _inventory) {
-      if (i.objektClass.contains(RegExp('[$query]co'))) {
-        _inventoryTemp.add(i);
-      }
-    }
-    maintainOrder();
-
-    print('------------------');
-  }
+  //   for (var i in _inventory) {
+  //     if (!i.objektClass.contains(RegExp('[$query]co'))) {
+  //       _inventoryTemp.remove(i);
+  //     }
+  //   }
+  //   maintainOrder();
+  // }
 
   maintainOrder() {
     if (_currentOrder == order[0]) {
@@ -148,6 +145,11 @@ class InventoryRepo extends ChangeNotifier {
     } else {
       orderByNumber(false);
     }
+  }
+
+  maintainFilter({int s = -1}) {
+    filterRepository(s == -1 ? _member : s);
+    apply();
   }
 
   //---------------------------------------------------------------------
@@ -187,6 +189,13 @@ class InventoryRepo extends ChangeNotifier {
 
   apply() {
     _isApplied = _query != ''; // ? false : true;
-    orderByClass(_query == '' ? 'wsfd' : _query);
+    //orderByClass(_query == '' ? 'wsfd' : _query);
+    var query = _query == '' ? 'wsfd' : _query;
+    for (var i in _inventory) {
+      if (!i.objektClass.contains(RegExp('[$query]co'))) {
+        _inventoryTemp.remove(i);
+      }
+    }
+    maintainOrder();
   }
 }

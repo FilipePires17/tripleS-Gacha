@@ -162,7 +162,8 @@ class _ClassFilterState extends State<ClassFilter> {
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
                         Provider.of<InventoryRepo>(context, listen: false)
-                            .apply();
+                            .maintainFilter();
+                        Navigator.pop(context);
                       },
                       child: Container(
                         decoration: BoxDecoration(

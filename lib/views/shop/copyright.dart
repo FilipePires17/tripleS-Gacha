@@ -40,7 +40,7 @@ class Copyright extends StatelessWidget {
                   child: RichText(
                     text: TextSpan(
                       text:
-                          'Made by filipe#8416, id: fuli. With an big help from ',
+                          'Made by filipe#8416, id: fuli. With a big help from ',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,

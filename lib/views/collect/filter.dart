@@ -117,8 +117,8 @@ class Filter extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 12,
                             color: repo.currentOrder == 'Newest'
-                                ? theme.colorScheme.primary
-                                : theme.hintColor,
+                                ? Colors.black
+                                : Colors.grey,
                             decoration: TextDecoration.none,
                             fontFamily: 'Pretendard')),
                   ),
@@ -134,8 +134,8 @@ class Filter extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 12,
                             color: repo.currentOrder == 'Oldest'
-                                ? theme.colorScheme.primary
-                                : theme.hintColor,
+                                ? Colors.black
+                                : Colors.grey,
                             decoration: TextDecoration.none,
                             fontFamily: 'Pretendard')),
                   ),
@@ -151,8 +151,8 @@ class Filter extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 12,
                             color: repo.currentOrder == 'Lowest No.'
-                                ? theme.colorScheme.primary
-                                : theme.hintColor,
+                                ? Colors.black
+                                : Colors.grey,
                             decoration: TextDecoration.none,
                             fontFamily: 'Pretendard')),
                   ),
@@ -167,8 +167,8 @@ class Filter extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 12,
                           color: repo.currentOrder == 'Highest No.'
-                              ? theme.colorScheme.primary
-                              : theme.hintColor,
+                              ? Colors.black
+                              : Colors.grey,
                           decoration: TextDecoration.none,
                           fontFamily: 'Pretendard')),
                 ),

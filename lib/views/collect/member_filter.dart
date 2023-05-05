@@ -204,40 +204,45 @@ class MemberFilter extends StatelessWidget {
                   left: 0.032 * itemWidth),
               itemCount: options.length,
               itemBuilder: (context, index) {
-                return GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    Provider.of<InventoryRepo>(context, listen: false)
-                        .filterRepository(index);
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    color: Color.fromRGBO(0, 0, 0, 0),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: 0.03 * itemWidth),
-                          child: ClipOval(
-                            child: SizedBox.fromSize(
-                                size: Size.fromRadius(0.041 * itemWidth),
-                                child: CachedNetworkImage(
-                                    imageUrl: urls[index],
-                                    fit: BoxFit.cover,
-                                    errorWidget: (context, url, error) {
-                                      return Image.asset(
-                                          'assets/images/tripleS_logo.png');
-                                    })),
-                          ),
+                return Consumer<InventoryRepo>(
+                  builder: (context, repo, child) {
+                    return GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        repo.maintainFilter(s: index);
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        color: Color.fromRGBO(0, 0, 0, 0),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(right: 0.03 * itemWidth),
+                              child: ClipOval(
+                                child: SizedBox.fromSize(
+                                    size: Size.fromRadius(0.041 * itemWidth),
+                                    child: CachedNetworkImage(
+                                        imageUrl: urls[index],
+                                        fit: BoxFit.cover,
+                                        errorWidget: (context, url, error) {
+                                          return Image.asset(
+                                              'assets/images/tripleS_logo.png');
+                                        })),
+                              ),
+                            ),
+                            Text(options[index],
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: repo.member == index
+                                        ? Colors.black
+                                        : Colors.grey,
+                                    decoration: TextDecoration.none,
+                                    fontFamily: 'Pretendard')),
+                          ],
                         ),
-                        Text(options[index],
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: theme.hintColor,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'Pretendard')),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
                 );
               },
               separatorBuilder: (context, index) {
