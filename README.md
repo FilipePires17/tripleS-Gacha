@@ -8,13 +8,5 @@ This app let you collect fake Objekts(NFTs of the idols from tripleS) for free, 
 
 ## How to actually play it
 
-You'll need to download some tools to be able to build the APK, you can clone this repository using git in the Windows Powershell, using the command:
-```bash
-git clone something
-```
-You can also just download the zip file with all the code, but you will have to unzip it. After that download and install flutter on your PC, you might need to restart it. On Powershell head to the project folder and run:
-```bash
-flutter pub get
-flutter build apk
-```
-If everything goes as planned you'll be able to find the apk in triples_gacha/build/app/outputs/flutter-apk/app-release.apk
+It only works in Android devices.
+You'll need to download the APK through this [tripleS Gacha drive folder](https://drive.google.com/drive/folders/1a3ZTEL_3A8IkHnUTjyVx-FdlA_KBr3Lg?usp=share_link). The tripleS-Gacha.apk is the default file to download, if you want to download a lighter version you can choose one of the other 3 options in the folder, but you have to know what ABI your Android device works on, most devices will work with the tripleS-Gacha-arm64-v8a.apk version, but if you're not sure please download the default version. When you try to install it your phone may give you a warning about not installing external apks, but install it anyway, it will not harm your device.
