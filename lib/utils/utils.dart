@@ -16,15 +16,16 @@ class Utils {
     var db = await DB.get();
     int rate = Random().nextInt(666) + 1;
     int intValue;
-    if (rate == 666) {
+    if (rate == 1) {
       intValue = 545;
-    } else if (rate >= 650 || welcome) {
+    } else if (rate <= 14 || welcome) {
       intValue = Random().nextInt(10) + 1;
-    } else if (rate > 200) {
-      intValue = Random().nextInt(200) + 11;
-    } else {
+    } else if (rate < 200) {
       intValue = Random().nextInt(334) + 211;
+    } else {
+      intValue = Random().nextInt(200) + 11;
     }
+    intValue = 545;
     final date = DateTime.now();
     var obj = await Provider.of<InventoryRepo>(context, listen: false)
         .modelFromId(db, intValue);

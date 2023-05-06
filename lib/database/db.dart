@@ -20,7 +20,7 @@ class DB {
 
   initDatabase() async {
     return await openDatabase(join(await getDatabasesPath(), 'cosmo.db'),
-        version: 3, onCreate: ((db, version) async {
+        version: 4, onCreate: ((db, version) async {
       await db.execute(backside);
       await db.execute(objekts);
       await db.execute(inventory);

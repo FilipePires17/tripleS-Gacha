@@ -18,27 +18,49 @@ class Objekt extends StatelessWidget {
       SizedBox(
         height: double.infinity,
         width: double.infinity,
-        child: CachedNetworkImage(
-          placeholder: (context, url) =>
-              Center(child: CircularProgressIndicator()),
-          imageUrl: card.url.trimLeft(),
-          errorWidget: (context, url, error) {
-            return Center(
-              child: Container(
+        child: card.s != '0'
+            ? CachedNetworkImage(
+                placeholder: (context, url) =>
+                    Center(child: CircularProgressIndicator()),
+                imageUrl: card.url.trimLeft(),
+                errorWidget: (context, url, error) {
+                  return Center(
+                    child: Container(
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: Image.asset(
+                        card.s != '0'
+                            ? 'assets/images/${card.s}.png'
+                            : 'assets/images/zero.png',
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  );
+                },
+                fit: BoxFit.fill,
+              )
+            : Container(
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Image.asset(
-                  card.s != '0'
-                      ? 'assets/images/${card.s}.png'
-                      : 'assets/images/zero.png',
+                    borderRadius: BorderRadius.all(Radius.circular(fontSize))),
+                child: CachedNetworkImage(
+                  placeholder: (context, url) => Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  imageUrl: card.url.trimLeft(),
+                  errorWidget: (context, url, error) => Center(
+                      child: Container(
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: Image.asset(
+                      'assets/images/zero.png',
+                      fit: BoxFit.fill,
+                    ),
+                  )),
                   fit: BoxFit.fill,
-                ),
-              ),
-            );
-          },
-          fit: BoxFit.fill,
-        ),
+                )),
       ),
       Container(
         alignment: Alignment.centerRight,
