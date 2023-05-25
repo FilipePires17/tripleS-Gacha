@@ -25,7 +25,7 @@ class Utils {
     } else {
       intValue = Random().nextInt(200) + 11;
     }
-    intValue = 545;
+    // intValue = 545;
     final date = DateTime.now();
     var obj = await Provider.of<InventoryRepo>(context, listen: false)
         .modelFromId(db, intValue);
