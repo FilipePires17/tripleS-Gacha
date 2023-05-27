@@ -1,9 +1,13 @@
 import 'dart:collection';
+import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
-import 'package:triples_gacha/models/inventory_objekt.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../database/db.dart';
+import '../models/inventory_objekt.dart';
 
 class InventoryRepo extends ChangeNotifier {
   List<InventoryObjekt> _inventory = [];
@@ -26,6 +30,44 @@ class InventoryRepo extends ChangeNotifier {
         INNER JOIN backside ON objekts.backside_id = backside.id
         WHERE objekts.id = $objId; ''');
     return objQuery[0];
+  }
+
+  Future<InventoryObjekt> gacha(bool welcome) async {
+    var db = await DB.get();
+    int rate = Random().nextInt(666) + 1;
+    int intValue;
+    if (rate == 1) {
+      intValue = 545;
+    } else if (rate <= 14 || welcome) {
+      intValue = Random().nextInt(10) + 1;
+    } else if (rate < 200) {
+      intValue = Random().nextInt(334) + 211;
+    } else {
+      intValue = Random().nextInt(200) + 11;
+    }
+    // intValue = 545;
+    final date = DateTime.now();
+    var obj = await modelFromId(db, intValue);
+
+    Directory dir = await getApplicationDocumentsDirectory();
+    var box = await Hive.openBox('serial', path: dir.path);
+    var s = obj['s'];
+    var classId = obj['class_num'];
+    var getSerial = box.get('$s-$classId') ?? 0;
+    box.put('$s-$classId', getSerial + 1);
+
+    InventoryObjekt inv = InventoryObjekt(
+        id: 0,
+        serial: getSerial + 1,
+        objId: intValue,
+        url: obj['url'],
+        backside: obj['urlb'],
+        classId: classId,
+        objektClass: obj['class'],
+        s: s,
+        date: date);
+    addInventory(inv: inv);
+    return inv;
   }
 
   void addInventory({required InventoryObjekt inv}) async {
@@ -188,8 +230,7 @@ class InventoryRepo extends ChangeNotifier {
   }
 
   apply() {
-    _isApplied = _query != ''; // ? false : true;
-    //orderByClass(_query == '' ? 'wsfd' : _query);
+    _isApplied = _query != '';
     var query = _query == '' ? 'wsfd' : _query;
     for (var i in _inventory) {
       if (!i.objektClass.contains(RegExp('[$query]co'))) {

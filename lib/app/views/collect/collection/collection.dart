@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:triples_gacha/models/inventory_objekt.dart';
-import 'package:triples_gacha/repositories/inventory_repo.dart';
-import 'package:triples_gacha/views/objekt/objekt.dart';
-import 'package:triples_gacha/views/objekt/objekt_page.dart';
-import '../../controler/controller.dart';
-import '../../utils/utils.dart';
+import '../../../controller/como_controller.dart';
+import '../../../models/inventory_objekt.dart';
+import '../../../repositories/inventory_repo.dart';
+import '../../../utils/utils.dart';
 import 'package:provider/provider.dart';
+import '../../objekt/objekt.dart';
+import '../../objekt/objekt_page.dart';
 
 class Collection extends StatefulWidget {
   @override

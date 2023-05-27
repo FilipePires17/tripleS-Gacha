@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:triples_gacha/controler/controller.dart';
-import 'package:triples_gacha/models/inventory_objekt.dart';
-import 'package:triples_gacha/utils/hero_dialog_route.dart';
-import 'package:triples_gacha/utils/utils.dart';
-import 'package:triples_gacha/views/shop/copyright.dart';
-import 'package:triples_gacha/views/shop/nocomo.dart';
+import 'package:triples_gacha/app/repositories/inventory_repo.dart';
+import 'package:triples_gacha/app/views/shared/como_displayer.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import '../../controller/como_controller.dart';
+import '../../models/inventory_objekt.dart';
+import '../../utils/hero_dialog_route.dart';
+import '../../utils/utils.dart';
+import 'copyright.dart';
 import 'new_objekt.dart';
+import 'nocomo.dart';
 
 class Shop extends StatelessWidget {
   const Shop({super.key});
@@ -66,7 +67,7 @@ class Shop extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.only(right: 0.065 * itemWidth),
-                    child: Como(),
+                    child: ComoDisplayer(),
                   )
                 ],
               ),
@@ -210,42 +211,44 @@ class Shop extends StatelessWidget {
               height: 0.2 * itemWidth,
               width: double.infinity,
               child: Center(
-                child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () async {
-                      var c =
+                child: Consumer<InventoryRepo>(
+                  builder: (context, repo, child) => GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () async {
+                        var c =
+                            Provider.of<ComoController>(context, listen: false)
+                                .como;
+                        if (c >= 1) {
                           Provider.of<ComoController>(context, listen: false)
-                              .como;
-                      if (c >= 1) {
-                        Provider.of<ComoController>(context, listen: false)
-                            .subtractComo();
-                        Utils util = Utils();
-                        InventoryObjekt obj = await util.gacha(context, false);
-                        Navigator.of(context)
-                            .push(HeroDialogRoute(builder: (context) {
-                          return NewObjekt(
-                              message: 'Loaded into Cosmo! \u{1F4AB}',
-                              card: obj);
-                        }));
-                      } else {
-                        Navigator.of(context)
-                            .push(HeroDialogRoute(builder: (context) {
-                          return NoComo();
-                        }));
-                      }
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 0.116 * itemWidth,
-                      width: 0.87 * itemWidth,
-                      decoration: BoxDecoration(
-                          color: theme.colorScheme.onSecondary,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: Text(
-                        'Objekt Purchase',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                    )),
+                              .subtractComo();
+                          InventoryObjekt obj = await repo.gacha(false);
+                          Navigator.of(context)
+                              .push(HeroDialogRoute(builder: (context) {
+                            return NewObjekt(
+                                message: 'Loaded into Cosmo! \u{1F4AB}',
+                                card: obj);
+                          }));
+                        } else {
+                          Navigator.of(context)
+                              .push(HeroDialogRoute(builder: (context) {
+                            return NoComo();
+                          }));
+                        }
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 0.116 * itemWidth,
+                        width: 0.87 * itemWidth,
+                        decoration: BoxDecoration(
+                            color: theme.colorScheme.onSecondary,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        child: Text(
+                          'Objekt Purchase',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      )),
+                ),
               ),
             ),
           ],

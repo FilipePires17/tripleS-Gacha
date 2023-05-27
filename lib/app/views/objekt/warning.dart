@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:triples_gacha/repositories/inventory_repo.dart';
+
+import '../../repositories/inventory_repo.dart';
 
 class Warning extends StatelessWidget {
   const Warning();

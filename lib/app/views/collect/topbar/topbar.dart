@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:triples_gacha/repositories/inventory_repo.dart';
-import 'package:triples_gacha/views/collect/class_filter.dart';
-import 'package:triples_gacha/views/collect/filter.dart';
-import '../../utils/utils.dart';
-import 'member_filter.dart';
+import 'package:triples_gacha/app/views/shared/como_displayer.dart';
+import '../../../repositories/inventory_repo.dart';
+import '../../../utils/utils.dart';
+import '../class_filter/class_filter.dart';
+import '../filter/filter.dart';
+import '../member_filter/member_filter.dart';
 
 class TopBar extends StatelessWidget {
   const TopBar({
@@ -52,7 +53,7 @@ class TopBar extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Como()
+                  ComoDisplayer()
                 ],
               ),
             ),

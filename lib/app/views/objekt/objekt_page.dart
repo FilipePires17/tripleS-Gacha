@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:triples_gacha/models/inventory_objekt.dart';
-import 'package:triples_gacha/views/objekt/objekt.dart';
-import 'package:triples_gacha/views/objekt/warning.dart';
+import 'package:triples_gacha/app/views/objekt/warning.dart';
+import '../../models/inventory_objekt.dart';
 import '../../utils/hero_dialog_route.dart';
+import 'objekt.dart';
 
 class ObjektPage extends StatefulWidget {
   final InventoryObjekt card;

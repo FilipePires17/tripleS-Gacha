@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:triples_gacha/models/inventory_objekt.dart';
-import 'package:triples_gacha/views/objekt/objekt.dart';
+import '../../models/inventory_objekt.dart';
+import '../objekt/objekt.dart';
 
 class NewObjekt extends StatelessWidget {
   final String message;

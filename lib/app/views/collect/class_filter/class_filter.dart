@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-//import 'package:triples_gacha/models/inventory_objekt.dart';
-import 'package:triples_gacha/repositories/inventory_repo.dart';
 
-// List<bool> isButtonPressed = [false, false, false, false];
-// String query = '';
+import '../../../repositories/inventory_repo.dart';
 
 class ClassFilter extends StatefulWidget {
   const ClassFilter({super.key});

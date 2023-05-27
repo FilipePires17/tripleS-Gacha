@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:triples_gacha/models/inventory_objekt.dart';
+
+import '../../models/inventory_objekt.dart';
 
 class Objekt extends StatelessWidget {
   final InventoryObjekt card;

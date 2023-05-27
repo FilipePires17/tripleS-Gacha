@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:triples_gacha/repositories/inventory_repo.dart';
-import 'package:triples_gacha/utils/hero_dialog_route.dart';
+
+import '../../../repositories/inventory_repo.dart';
+import '../../../utils/hero_dialog_route.dart';
 
 class FilterButton extends StatefulWidget {
   FilterButton({super.key});
