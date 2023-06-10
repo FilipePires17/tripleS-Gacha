@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:triples_gacha/app/repositories/inventory_repo.dart';
-import 'package:triples_gacha/app/utils/utils.dart';
+import 'package:triples_gacha/app/features/home/data/inventory_repo.dart';
 
 import 'app.dart';
-import 'controller/como_controller.dart';
+import 'features/como/data/como_repository.dart';
 
 class MyProvider extends StatelessWidget {
   const MyProvider({super.key});
@@ -13,7 +12,7 @@ class MyProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => InventoryRepo()),
-      ChangeNotifierProvider(create: (_) => ComoController()),
+      ChangeNotifierProvider(create: (_) => ComoRepository()),
     ], child: MyApp());
   }
 }

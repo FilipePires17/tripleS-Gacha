@@ -6,10 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:triples_gacha/app/views/collect/home/collect.dart';
-import 'package:triples_gacha/app/views/shop/shop.dart';
+import 'package:triples_gacha/app/features/home/presentation/collect.dart';
+import 'package:triples_gacha/app/features/shop/presentation/shop.dart';
 
-import 'controller/como_controller.dart';
+import 'features/como/data/como_repository.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -22,13 +22,14 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    rechargeComo();
+    ComoRepository como = context.watch<ComoRepository>();
+    rechargeComo(como);
     Timer.periodic(Duration(seconds: 1), (timer) async {
-      rechargeComo();
+      rechargeComo(como);
     });
   }
 
-  rechargeComo() async {
+  rechargeComo(ComoRepository como) async {
     final t = DateTime.now();
     Directory dir = await getApplicationDocumentsDirectory();
     var box = await Hive.openBox('daily', path: dir.path);
@@ -38,10 +39,10 @@ class _MyAppState extends State<MyApp> {
     String day = t.day.toString();
     String today = '$year-$month-$day';
     if (yesterday == '') {
-      Provider.of<ComoController>(context, listen: false).addComo(add: 24);
+      como.addComo(add: 24);
       box.put('day', today);
     } else if (yesterday != today) {
-      Provider.of<ComoController>(context, listen: false).addComo();
+      como.addComo();
       box.put('day', today);
     }
   }
